@@ -33,6 +33,7 @@ const AuthPage = () => {
       }
       
       if (response._id) {
+        
         navigate('/dashboard');
       }
     } catch (err) {

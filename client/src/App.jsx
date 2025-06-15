@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import PaymentStatus from "./pages/PaymentStatus";
+import MyCourses from "./pages/MyCourses";
 
 
 
@@ -42,6 +43,11 @@ function App() {
       <Route path="/" element={<AuthPage />} />
      
 <Route path="/payment" element={<PaymentStatus />} />
+<Route
+        path="/my-courses"
+        element={<MyCourses />}
+      />
+      
     </Routes>
     <ToastContainer />
     </AuthProvider>

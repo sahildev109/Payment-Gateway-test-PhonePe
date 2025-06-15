@@ -39,4 +39,15 @@ const checkAuth = async () => {
   return response.json();
 };
 
-export default { register, login, logout, checkAuth };
+const getUserById = async (id) => {
+  const response = await fetch(`${API_URL}/user/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include'
+  });
+  return response.json();
+};
+
+export default { register, login, logout, checkAuth, getUserById };

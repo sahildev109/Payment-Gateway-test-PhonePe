@@ -12,6 +12,7 @@ const Course = require('../model/Courses');
 };
 
 
+
 const getCourseById = async (req, res) => {
   try {
     const course = await Course.findById(req.params.id);

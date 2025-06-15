@@ -4,6 +4,7 @@ const cors = require('cors');
 const session = require('express-session');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
+const MongoStore = require('connect-mongo');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
 const courseRoutes = require('./routes/courseRoutes');
@@ -20,14 +21,23 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
+// ✅ Session Configuration with MongoDB
 app.use(session({
-    secret: 'your_secret_key',
+    secret: 'your_secret_key', // Change to a strong secret in production
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false,
-         maxAge: 24 * 60 * 60 * 1000 
-     } 
+    saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGO_URI, // Store sessions in your MongoDB
+        collectionName: 'sessions'
+    }),
+    cookie: {
+        secure: false, // Set to true if using HTTPS
+        httpOnly: true, // Helps prevent XSS
+        sameSite: 'lax', // Allows returning from external payment gateways
+        maxAge: 24 * 60 * 60 * 1000 // 1 day
+    }
 }));
+
 
 app.get('/', (req, res) => {
     res.send('Welcome to the API!');

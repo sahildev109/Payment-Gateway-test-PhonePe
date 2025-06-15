@@ -1,10 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PaymentServices from '../services/PaymentServices';
 import { AuthContext } from '../context/AuthContext';
 import { useContext } from 'react';
+import AuthServices from '../services/AuthServices';
 
 const CourseCard = ({ course }) => {
-    const { user } = useContext(AuthContext);
+   const [user,setUser]=useState(null);
+  const [loading, setLoading] = useState(false)
+
+ useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                setLoading(true);
+                const response = await AuthServices.checkAuth();
+                if (response.isAuthenticated) {
+                    setUser(response.user);
+                }
+            } catch (error) {
+                console.error('Error checking auth:', error);
+            } finally {
+                setLoading(false );
+            }
+        };
+        checkAuth();
+    }, []);
+
   const { 
     _id,
     title, 

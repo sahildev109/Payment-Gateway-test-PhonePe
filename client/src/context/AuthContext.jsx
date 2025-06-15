@@ -26,9 +26,13 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (credentials) => {
-    const data = await authService.login(credentials);
-    setUser(data);
+       await authService.login(credentials); // No need to directly set user from here
+    const data = await authService.checkAuth(); // Verify with the server session
+    if (data.isAuthenticated) {
+        setUser(data.user);
+    }
     return data;
+
   };
 
   const register = async (userData) => {
